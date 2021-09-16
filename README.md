@@ -4,4 +4,4 @@
 
 Firstly you need to run "Installer.bat" to install the required libs.
 
-Finally, you can run Money Manager.exe
+Finally, you can run main.pyw
