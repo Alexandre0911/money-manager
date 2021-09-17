@@ -1,9 +1,11 @@
+from functools import total_ordering
 from typing import Text
 import PySimpleGUI as psg
 import datetime
 
 
-
+spaces = ' '
+update = '09/17/2021'
 money_sign = ''
 month = datetime.datetime.today().month
 
@@ -39,56 +41,77 @@ def main():
         button_color = ('Black', 'gainsboro'))
 
     layout = [
-        [psg.Text('This Money Manager Was Made By : Alexandre0911@github.com')],
-        [psg.Text('Amount Of Money At The Start Of The Month'), psg.InputText()],
+        [psg.Text('Made By : Alexandre0911@github.com'), psg.Text('{}Last Update Released : {}'.format(spaces*42, update))],
+        [psg.Text('Amount Of Money At The Start Of The Month', size=(33)), psg.InputText(size=(42)), psg.Text('€ / $')],
+        [psg.Text('Basic Necessities Money Percentage', size=(33)), psg.InputText(size=(42)), psg.Text('%')],
+        [psg.Text('Free Time Money Percentage ', size=(33)), psg.InputText(size=(42)), psg.Text('%')],
+        [psg.Text('Financial Liberty Money Percentage ', size=(33)), psg.InputText(size=(42)), psg.Text('%')],
+        [psg.Text('Long-Term Expenses Money Percentage', size=(33)), psg.InputText(size=(42)), psg.Text('%')],
+        [psg.Text('Financial Instruction Money Percentage', size=(33)), psg.InputText(size=(42)), psg.Text('%')],
+        [psg.Text('Donations Money Percentage', size=(33)), psg.InputText(size=(42)), psg.Text('%')],
+        [psg.Text('Investments Money Percentage', size=(33)), psg.InputText(size=(42)), psg.Text('%')],
         [psg.Text('Select Currency  >>>'), psg.Button('Dollars'), psg.Text('-'), psg.Button('Euros')],
-        [psg.Button('Do The Math!'), psg.Button('Cancel')]
+        [psg.Button('Do The Math!'), psg.Text(' '*113), psg.Button('Cancel')]
     ]
 
-    window = psg.Window('Money Manager v1.0', layout)
+    window = psg.Window('Money Manager v1.1', layout)
 
 
 
     while True:
-        event, values = window.read()
+        event, values = window.read(timeout=0)
 
         if event == psg.WIN_CLOSED or event == 'Cancel':
             break
         elif event == 'Dollars':
+
             money_sign = ' $'
-            psg.PopupOK('Currency was set to Dollars', keep_on_top=True)
+            psg.PopupOK(' Currency was set to Dollars.', keep_on_top=True)
+
         elif event == 'Euros':
+
             money_sign = ' €'
-            psg.PopupOK('Currency was set to Euros', keep_on_top=True)
+            psg.PopupOK(' Currency was set to Euros.', keep_on_top=True)
+
         elif event == 'Do The Math!':
+
             if money_sign == '':
-                psg.PopupOK('You need to choose a currency!')
+                psg.PopupOK(' You need to choose a currency!')
+
             elif money_sign != '':
-                my_number = float(values[0])
-                psg.PopupOK(math(my_number, money_sign), keep_on_top=True)
+
+                print(values)
+                total_percentage = float(values[1]) + float(values[2]) + float(values[3]) + float(values[4]) + float(values[5]) + float(values[6]) + float(values[7])
+
+                if total_percentage == 100.0:
+
+                    my_number = float(values[0])
+                    psg.PopupOK(math(my_number, money_sign, float(values[1]), float(values[2]), float(values[3]), float(values[4]), float(values[5]), float(values[6]), float(values[7])), keep_on_top=True)
 
     window.close()
 
 
 
-def math(x, y):
-    basic_necessities = x * 0.5
-    free_time = x * 0.1
-    financial_liberty = x * 0.1
-    long_term_expenses = x * 0.1
-    financial_education = x * 0.1
-    donations = x * 0.1
+def math(x, y, bn, ft, fl, lte, fe, d, i):
+    basic_necessities = x * (bn/100)
+    free_time = x * (ft/100)
+    financial_liberty = x * (fl/100)
+    long_term_expenses = x * (lte/100)
+    financial_instruction = x * (fe/100)
+    donations = x * (d/100)
+    investments = x * (i/100)
 
 
 
     try:
         file = open('C:\\Users\\Public\\Desktop\\Money Management ({}).txt'.format(month_names[month]), mode='w+', encoding='utf-8')
-        file.write('''Money For Basic Necessities >>> {:.2f}{}
-Money For Free Time >>> {:.2f}{}
-Money For Financial Liberty >>> {:.2f}{}
-Money For Long-Term Expenses >>> {:.2f}{}
-Money For Financial Education >>> {:.2f}{}
-Money For Donations >>> {:.2f}{}'''.format(basic_necessities, y, free_time, y, financial_liberty, y, long_term_expenses, y, financial_education, y, donations, y))
+        file.write('''Money For Basic Necessities ({}%) >>> {:.2f}{}
+Money For Free Time ({}%) >>> {:.2f}{}
+Money For Financial Liberty ({}%) >>> {:.2f}{}
+Money For Long-Term Expenses ({}%) >>> {:.2f}{}
+Money For Financial Education ({}%) >>> {:.2f}{}
+Money For Donations ({}%) >>> {:.2f}{}
+Money For Investments ({}%) >>> {:.2f}{}'''.format(bn, basic_necessities, y, ft, free_time, y, fl, financial_liberty, y, lte, long_term_expenses, y, fe, financial_instruction, y, d, donations, y, i, investments, y))
     finally:
         file.close()
 
@@ -98,12 +121,13 @@ Money For Donations >>> {:.2f}{}'''.format(basic_necessities, y, free_time, y, f
     b = 'Money For Free Time >>> {:.2f}{}'.format(free_time, y)
     c = 'Money For Financial Liberty >>> {:.2f}{}'.format(financial_liberty, y)
     d = 'Money For Long-Term Expenses >>> {:.2f}{}'.format(long_term_expenses, y)
-    e = 'Money For Financial Education >>> {:.2f}{}'.format(financial_education, y)
+    e = 'Money For Financial Education >>> {:.2f}{}'.format(financial_instruction, y)
     f = 'Money For Donations >>> {:.2f}{}'.format(donations, y)
+    g = 'Money For Investments >>> {:.2f}{}'.format(investments, y)
 
     saved = 'Document Saved to Desktop as Money Management ({}).txt'.format(month_names[month])
 
-    return '{}\n{}\n{}\n{}\n{}\n{}\n\n{}'.format(a, b, c, d, e, f, saved)
+    return '{}\n{}\n{}\n{}\n{}\n{}\n{}\n\n{}'.format(a, b, c, d, e, f, g, saved)
 
 
 
