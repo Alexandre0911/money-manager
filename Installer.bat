@@ -1,4 +1,4 @@
-pip install typing
+pip install pygithub
 cls
 pip install PySimpleGUI
 cls
