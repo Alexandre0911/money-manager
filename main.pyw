@@ -1,17 +1,11 @@
-from github import Github
 import PySimpleGUI as psg
 import datetime
 
 
 
-github = Github("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")
-repo = "Alexandre0911/money-manager"
-get_repo = github.get_repo(repo).updated_at
-
-
 null = ''
 spaces = ' '
-update = ' {}/{}/{}'.format(get_repo.month, get_repo.day, get_repo.year)
+update = '09/17/2021'
 money_sign = ''
 month = datetime.datetime.today().month
 
