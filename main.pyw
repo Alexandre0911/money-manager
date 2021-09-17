@@ -1,13 +1,21 @@
-from functools import total_ordering
-from typing import Text
+from github import Github
 import PySimpleGUI as psg
 import datetime
 
 
+
+github = Github("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")
+repo = "Alexandre0911/money-manager"
+get_repo = github.get_repo(repo).updated_at
+
+
+null = ''
 spaces = ' '
-update = '09/17/2021'
+update = ' {}/{}/{}'.format(get_repo.month, get_repo.day, get_repo.year)
 money_sign = ''
 month = datetime.datetime.today().month
+
+
 
 month_names = {
     1 : 'January',
@@ -41,7 +49,7 @@ def main():
         button_color = ('Black', 'gainsboro'))
 
     layout = [
-        [psg.Text('Made By : Alexandre0911@github.com'), psg.Text('{}Last Update Released : {}'.format(spaces*42, update))],
+        [psg.Text('Made By : Alexandre0911@github.com'), psg.Text('{}Last Update Released  : {}'.format(spaces*42, update))],
         [psg.Text('Amount Of Money At The Start Of The Month', size=(33)), psg.InputText(size=(42)), psg.Text('€ / $')],
         [psg.Text('Basic Necessities Money Percentage', size=(33)), psg.InputText(size=(42)), psg.Text('%')],
         [psg.Text('Free Time Money Percentage ', size=(33)), psg.InputText(size=(42)), psg.Text('%')],
@@ -75,19 +83,27 @@ def main():
 
         elif event == 'Do The Math!':
 
-            if money_sign == '':
-                psg.PopupOK(' You need to choose a currency!')
+            if '' in values:
+                psg.PopupOK(' Some box(es) need to be filled!')
 
-            elif money_sign != '':
+                if money_sign == '':
+                    psg.PopupOK(' You need to choose a currency!')
 
-                print(values)
-                total_percentage = float(values[1]) + float(values[2]) + float(values[3]) + float(values[4]) + float(values[5]) + float(values[6]) + float(values[7])
+                elif money_sign != '':
 
-                if total_percentage == 100.0:
+                    print(values)
+                    total_percentage = float(values[1]) + float(values[2]) + float(values[3]) + float(values[4]) + float(values[5]) + float(values[6]) + float(values[7])
 
-                    my_number = float(values[0])
-                    psg.PopupOK(math(my_number, money_sign, float(values[1]), float(values[2]), float(values[3]), float(values[4]), float(values[5]), float(values[6]), float(values[7])), keep_on_top=True)
+                    if total_percentage == 100.0:
 
+                            my_number = float(values[0])
+                            psg.PopupOK(math(my_number, money_sign, float(values[1]), float(values[2]), float(values[3]), float(values[4]), float(values[5]), float(values[6]), float(values[7])), keep_on_top=True)
+
+                    else:
+
+                        psg.PopupOK('The percentages need to add up to 100.0 and they are adding up to {}!'.format(total_percentage))
+
+                    
     window.close()
 
 
