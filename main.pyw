@@ -4,7 +4,7 @@ import datetime
 
 
 
-github = Github("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")
+github = Github("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")
 repo = "Alexandre0911/money-manager"
 get_repo = github.get_repo(repo).updated_at
 
