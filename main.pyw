@@ -79,8 +79,7 @@ def main():
             psg.PopupOK(' Currency was set to Euros.', keep_on_top=True)
 
         elif event == 'Do The Math!':
-
-            print(values)
+            print('First Step >>> {}'.format(values))
 
             try:
                 
@@ -91,23 +90,24 @@ def main():
             except ValueError:
                 pass
 
-                if money_sign == '':
+            if money_sign == '':
                     psg.PopupOK(' You need to choose a currency!')
 
-                elif money_sign != '':
+            elif money_sign != '':
+                print('Second Step >>> {}'.format(values))
 
-                    total_percentage = float(values[1]) + float(values[2]) + float(values[3]) + float(values[4]) + float(values[5]) + float(values[6]) + float(values[7])
+                total_percentage = float(values[1]) + float(values[2]) + float(values[3]) + float(values[4]) + float(values[5]) + float(values[6]) + float(values[7])
 
-                    if total_percentage == 100.0:
+                if total_percentage == 100.0:
+                    print('Third Step >>> {}'.format(values))
 
-                            my_number = float(values[0])
-                            psg.PopupOK(math(my_number, money_sign, float(values[1]), float(values[2]), float(values[3]), float(values[4]), float(values[5]), float(values[6]), float(values[7])), keep_on_top=True)
+                    my_number = float(values[0])
+                    psg.PopupOK(math(my_number, money_sign, float(values[1]), float(values[2]), float(values[3]), float(values[4]), float(values[5]), float(values[6]), float(values[7])), keep_on_top=True)
 
-                    else:
+                else:
 
-                        psg.PopupOK('The percentages need to add up to 100.0 and they are adding up to {}!'.format(total_percentage))
-
-                    
+                    psg.PopupOK('The percentages need to add up to 100.0 and they are adding up to {}!'.format(total_percentage))
+               
     window.close()
 
 
@@ -123,8 +123,9 @@ def math(x, y, bn, ft, fl, lte, fe, d, i):
 
 
 
+    file = open('C:\\Users\\Public\\Desktop\\Money Management ({}).txt'.format(month_names[month]), mode='w+', encoding='utf-8')
+
     try:
-        file = open('C:\\Users\\Public\\Desktop\\Money Management ({}).txt'.format(month_names[month]), mode='w+', encoding='utf-8')
         file.write('''Money For Basic Necessities ({}%) >>> {:.2f}{}
 Money For Free Time ({}%) >>> {:.2f}{}
 Money For Financial Liberty ({}%) >>> {:.2f}{}
