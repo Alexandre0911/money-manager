@@ -61,10 +61,13 @@ def main():
 
 
     while True:
-        event, values = window.read(timeout=0)
+
+        event, values = window.read()
 
         if event == psg.WIN_CLOSED or event == 'Cancel':
+
             break
+
         elif event == 'Dollars':
 
             money_sign = ' $'
@@ -77,15 +80,22 @@ def main():
 
         elif event == 'Do The Math!':
 
-            if '' in values:
-                psg.PopupOK(' Some box(es) need to be filled!')
+            print(values)
+
+            try:
+                
+                if '' in values.values():
+                    
+                    psg.PopupOK(' Some box(es) need to be filled!')
+
+            except ValueError:
+                pass
 
                 if money_sign == '':
                     psg.PopupOK(' You need to choose a currency!')
 
                 elif money_sign != '':
 
-                    print(values)
                     total_percentage = float(values[1]) + float(values[2]) + float(values[3]) + float(values[4]) + float(values[5]) + float(values[6]) + float(values[7])
 
                     if total_percentage == 100.0:
