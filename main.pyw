@@ -5,7 +5,7 @@ import datetime
 
 null = ''
 spaces = ' '
-update = '09/17/2021'
+update = '09/18/2021'
 money_sign = ''
 month = datetime.datetime.today().month
 
